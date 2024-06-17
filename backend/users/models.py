@@ -19,7 +19,7 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
 
     # Define los campos adicionales requeridos al crear un usuario.
-    REQUIRED_FIELDS = ['username','role', 'first_name', 'last_name', 'phone']
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'phone']
     # REQUIRED_FIELDS = ['username']
 
     def __str__(self):
