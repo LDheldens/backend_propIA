@@ -4,5 +4,9 @@ from .views import *
 app_name = 'inmueble'
 
 urlpatterns = [
-
+    path('list/',ListProperty),
+    path('detail/<int:pk>/',DetailProperty),
+    path('create/',CreateProperty),
+    path('update/<int:pk>/',UpdateProperty),
+    path('delete/<int:pk>/',DeleteProperty),
 ]
