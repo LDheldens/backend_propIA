@@ -26,7 +26,13 @@ class Property(models.Model):
     price=models.DecimalField(max_digits=20,decimal_places=3)
     description=models.TextField(max_length=800)
     terms_conditions=models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f'{self.type_property} - {self.adress}'
 
 class ImageProperty(models.Model):
-    property=models.ForeignKey(Property,on_delete=models.CASCADE)
+    property=models.ForeignKey(Property,on_delete=models.CASCADE,related_name='images')
     image=models.ImageField(upload_to='property/image')
+    
+    def __str__(self):
+        return f'Image for {self.property}'
