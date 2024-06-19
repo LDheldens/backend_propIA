@@ -15,7 +15,11 @@ def ListProperty(request):
 
 @api_view(["POST"])
 def create_property(request):
-    return Response({"testing":"Si funciona post"})
+    serializer = PropertySerializer(data=request.data)
+    if serializer.is_valid():
+        instance = serializer.save()
+        return Response({'message': 'Propiedad registrada de manera exitosa', 'id': instance.id}, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def property_detail(request, pk):
