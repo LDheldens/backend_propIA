@@ -10,7 +10,9 @@ from .models import *
 
 @api_view(["GET"])
 def ListProperty(request):
-    return Response({"testing":"Si funciona get"})
+    properties = Property.objects.all()
+    serializer = PropertySerializer(properties, many=True)
+    return Response(serializer.data)
 
 
 @api_view(["POST"])
