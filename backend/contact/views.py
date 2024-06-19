@@ -21,10 +21,11 @@ def create_message(request):
 @api_view(['GET'])
 def list_messages(request):
     if request.method == 'GET':
-        serializer = MessageSerializer(property)
+        messages = Message.objects.all()  # Obtener todos los registros del modelo Message
+        serializer = MessageSerializer(messages, many=True)  # Serializar los datos obtenidos
         return Response(serializer.data)
 
-@api_view(['GET'])
+@api_view(['GET', 'DELETE'])
 def detail_message(request, pk):
     try:
         message = Message.objects.get(pk=pk)
@@ -34,14 +35,8 @@ def detail_message(request, pk):
     if request.method == 'GET':
         serializer = MessageSerializer(message)
         return Response(serializer.data)
-
-@api_view(['DELETE'])
-def delete_message(request, pk):
-    try:
-        message = Message.objects.get(pk=pk)
-    except Message.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == 'DELETE':
+    
+    elif request.method == 'DELETE':
+        message_id = message.id
         message.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({'message': f'mensaje eliminada','id':message_id}, status=status.HTTP_204_NO_CONTENT)
