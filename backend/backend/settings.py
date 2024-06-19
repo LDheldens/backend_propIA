@@ -52,6 +52,7 @@ APPS_DJANGO = [
 # Lista de tus propias aplicaciones
 CUSTOM_APPS= [
     'rest_framework',
+    'drf_yasg',
     'rest_framework.authtoken',
     'inmueble',
     'users',
