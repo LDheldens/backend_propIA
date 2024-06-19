@@ -55,6 +55,7 @@ CUSTOM_APPS= [
     'rest_framework.authtoken',
     'inmueble',
     'users',
+    'contact',
 ]
 
 # Combina las dos listas en una sola lista de INSTALLED_APPS
