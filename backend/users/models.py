@@ -11,6 +11,7 @@ class Role(models.Model):
 
 class User(AbstractUser):
     role = models.ForeignKey(Role, on_delete=models.CASCADE,null=True)
+    username = models.CharField(max_length=150, blank=True, null=True, unique=False)
     photo = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=100, blank=True, null=True)
     phone = models.IntegerField(default=1)
 
@@ -19,7 +20,7 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
 
     # Define los campos adicionales requeridos al crear un usuario.
-    REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'phone']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'phone']
     # REQUIRED_FIELDS = ['username']
 
     def __str__(self):
