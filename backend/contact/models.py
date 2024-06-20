@@ -13,5 +13,6 @@ class Message(models.Model):
     ciudad = models.CharField(max_length=100)
     provincia = models.CharField(max_length=100)
     codigo_postal = models.CharField(max_length=100)
+    atendido = models.BooleanField(default=False)
     def __str__(self):
         return f'{self.nombres} {self.apellidos} - {self.tipo_solicitud}'
