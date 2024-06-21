@@ -10,13 +10,13 @@ class Role(models.Model):
 
 
 class User(AbstractUser):
-    role = models.ForeignKey(Role, on_delete=models.CASCADE,null=True)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE,default=2)
     username = models.CharField(max_length=150, blank=True, null=True, unique=False)
     photo = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=100, blank=True, null=True)
-    phone = models.IntegerField(default=1)
+    phone = models.IntegerField(null=True, blank=True)
 
     # Define el campo 'email' como el campo de autenticación.
-    email = models.EmailField(unique=True, default="defaultemalin@gmail.com")
+    email = models.EmailField(unique=True)
     USERNAME_FIELD = 'email'
 
     # Define los campos adicionales requeridos al crear un usuario.

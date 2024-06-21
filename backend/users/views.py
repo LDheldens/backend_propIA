@@ -47,23 +47,11 @@ def login(request):
 def register(request):
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
-        # Create the user manually
-        user = User(
-            username=serializer.validated_data['username'],
-            email=serializer.validated_data['email'],
-            first_name=serializer.validated_data['first_name'],
-            last_name=serializer.validated_data['last_name'],
-            role=serializer.validated_data['role'],
-            phone=serializer.validated_data['phone'],
-            photo=serializer.validated_data['photo'],
-        )
-        user.set_password(serializer.validated_data['password'])  # Hash the password
-        user.save()
 
-        # Create a token for the new user
+        user = serializer.save()
+        
         token, created = Token.objects.get_or_create(user=user)
-
-        # Return the serialized data and token
+        
         return Response({
             'user': UserSerializer(user).data,
             'token': token.key

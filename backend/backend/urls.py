@@ -9,7 +9,7 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Tu API",
+      title="API DE PROPIA",
       default_version='v1',
       description="Documentación de la API",
       terms_of_service="https://www.google.com/policies/terms/",
