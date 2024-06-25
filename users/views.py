@@ -83,3 +83,11 @@ def logout(request):
     else:
         return Response({'error': 'Usuario no autenticado'}, status=status.HTTP_401_UNAUTHORIZED)
 
+@api_view(['GET'])
+# @authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+def list_users(request):
+    if request.method == 'GET':
+        users = User.objects.all()  # Obtener todos los registros del modelo Message
+        serializer = UserSerializer(users, many=True)  # Serializar los datos obtenidos
+        return Response(serializer.data)
