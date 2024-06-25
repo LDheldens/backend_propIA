@@ -30,9 +30,7 @@ def list_messages(request):
         serializer = MessageSerializer(messages, many=True)  # Serializar los datos obtenidos
         return Response(serializer.data)
 
-@api_view(['GET', 'DELETE'])
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
+@api_view(['GET', 'PUT','DELETE'])
 def detail_message(request, pk):
     try:
         message = Message.objects.get(pk=pk)
@@ -42,6 +40,13 @@ def detail_message(request, pk):
     if request.method == 'GET':
         serializer = MessageSerializer(message)
         return Response(serializer.data)
+    
+    elif request.method == 'PUT':
+        serializer = MessageSerializer(message, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message':'Se actualizó el estado de la solicitud','id':message.id})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == 'DELETE':
         message_id = message.id
