@@ -137,6 +137,10 @@ coverage.xml
 *_pycache_/
 *__pycache__/
 *.pyc
+# Django Migrations
+*/migrations/*
+!*/migrations/__init__.py
+
 
 # Jupyter Notebook
 .ipynb_checkpoints

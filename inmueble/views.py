@@ -17,10 +17,18 @@ def ListProperty(request):
 
 @api_view(["POST"])
 def create_property(request):
+    print(request.data)  # Para depuración
+    print('IMAGENES',request.FILES)  # Para depuración
     serializer = PropertySerializer(data=request.data)
     if serializer.is_valid():
-        instance = serializer.save()
-        return Response({'message': 'Propiedad registrada de manera exitosa', 'id': instance.id}, status=status.HTTP_201_CREATED)
+        property_instance = serializer.save()
+
+        # Manejo de las imágenes
+        for image in request.FILES.getlist('images'):
+            ImageProperty.objects.create(property=property_instance, image=image)
+        
+        return Response({'message': 'Propiedad registrada de manera exitosa', 'id': property_instance.id}, status=status.HTTP_201_CREATED)
+    
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])

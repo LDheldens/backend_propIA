@@ -1,5 +1,14 @@
 # Create your models here.
 from django.db import models
+import os
+import uuid
+
+# funcion para generar nombres unicos para las imagenes
+def get_unique_file_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f"{uuid.uuid4()}.{ext}"
+    return os.path.join('property/image/', filename)
+
 
 # Create your models here.
 class Property(models.Model):
@@ -32,7 +41,7 @@ class Property(models.Model):
 
 class ImageProperty(models.Model):
     property=models.ForeignKey(Property,on_delete=models.CASCADE,related_name='images')
-    image=models.ImageField(upload_to='property/image')
+    image=models.ImageField(upload_to=get_unique_file_path)
     
     def __str__(self):
         return f'Image for {self.property}'
