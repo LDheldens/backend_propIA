@@ -7,8 +7,13 @@ from rest_framework.decorators import api_view
 from .serializers import PropertySerializer, ImagePropertySerializer
 from rest_framework import status
 from .models import *
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 
 @api_view(["GET"])
+# @authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
 def ListProperty(request):
     properties = Property.objects.all()
     serializer = PropertySerializer(properties, many=True)
