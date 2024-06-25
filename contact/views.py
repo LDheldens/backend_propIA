@@ -8,6 +8,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Message
 from .serializers import MessageSerializer
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 
 @api_view(['POST'])
 def create_message(request):
@@ -19,6 +22,8 @@ def create_message(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
+# @authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
 def list_messages(request):
     if request.method == 'GET':
         messages = Message.objects.all()  # Obtener todos los registros del modelo Message
