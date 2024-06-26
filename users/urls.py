@@ -9,4 +9,6 @@ urlpatterns = [
     path('logout/',logout),
     path('register/',register),
     path('profile/',profile),
+    path('list/',list_users),
+    path('<int:pk>/',detail_user),
 ]
