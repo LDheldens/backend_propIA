@@ -91,3 +91,19 @@ def list_users(request):
         users = User.objects.all()  # Obtener todos los registros del modelo Message
         serializer = UserSerializer(users, many=True)  # Serializar los datos obtenidos
         return Response(serializer.data)
+    
+@api_view(['GET','DELETE'])
+def detail_user(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == 'GET':
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+    
+    elif request.method == 'DELETE':
+        user_id = user.id
+        user.delete()
+        return Response({'mensage': f'usuario eliminado','id':user_id}, status=status.HTTP_204_NO_CONTENT)
