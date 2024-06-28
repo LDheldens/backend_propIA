@@ -18,6 +18,13 @@ class CustomPagination(PageNumberPagination):
     max_page_size = 100
 
 @api_view(["GET"])
+def ListPropertyAdmin(request):
+    properties = Property.objects.all()
+    serializer = PropertySerializer(properties, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
 def ListProperty(request):
     properties = Property.objects.all()
 

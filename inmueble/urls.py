@@ -5,6 +5,7 @@ app_name = 'inmueble'
 
 urlpatterns = [
     path('list/',ListProperty),
+    path('list/admin/',ListPropertyAdmin),
     path('add/',create_property),
     path('<int:pk>/',property_detail),
 ]
