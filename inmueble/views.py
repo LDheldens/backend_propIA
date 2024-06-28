@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.db.models import Q
 # Create your views here.
 from rest_framework.response import Response
 from rest_framework.serializers import Serializer
@@ -12,13 +12,28 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 
 @api_view(["GET"])
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
 def ListProperty(request):
     properties = Property.objects.all()
+
+    property_type = request.query_params.get('type', None)
+    search_text = request.query_params.get('text', None)
+    type_operation = request.query_params.get('transaction', None)
+
+    if property_type:
+        properties = properties.filter(type_property__icontains=property_type)
+    
+    if search_text:
+        properties = properties.filter(
+            Q(provincia__icontains=search_text) | 
+            Q(description__icontains=search_text) |
+            Q(distrito__icontains=search_text)
+        )
+    
+    if type_operation:
+        properties = properties.filter(type_operation__icontains=type_operation)
+
     serializer = PropertySerializer(properties, many=True)
     return Response(serializer.data)
-
 
 @api_view(["POST"])
 def create_property(request):
