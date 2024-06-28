@@ -10,6 +10,12 @@ from .models import *
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.pagination import PageNumberPagination
+
+class CustomPagination(PageNumberPagination):
+    page_size = 10 
+    page_size_query_param = 'page_size'
+    max_page_size = 100
 
 @api_view(["GET"])
 def ListProperty(request):
@@ -32,8 +38,11 @@ def ListProperty(request):
     if type_operation:
         properties = properties.filter(type_operation__icontains=type_operation)
 
-    serializer = PropertySerializer(properties, many=True)
-    return Response(serializer.data)
+    paginator = CustomPagination()
+    result_page = paginator.paginate_queryset(properties, request)
+    serializer = PropertySerializer(result_page, many=True)
+    return paginator.get_paginated_response(serializer.data)
+
 
 @api_view(["POST"])
 def create_property(request):
