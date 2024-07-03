@@ -89,3 +89,13 @@ def property_detail(request, pk):
         property_id = property.id
         property.delete()
         return Response({'message': f'Propidad eliminada','id':property_id}, status=status.HTTP_204_NO_CONTENT)
+    
+
+@api_view(['GET'])
+def property_list_user(request, pk):
+    try:
+        properties = Property.objects.get(user_id=pk)
+        serializer = PropertySerializer(properties)
+        return Response(serializer.data)
+    except Property.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
