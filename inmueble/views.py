@@ -94,8 +94,20 @@ def property_detail(request, pk):
 @api_view(['GET'])
 def property_list_user(request, pk):
     try:
-        properties = Property.objects.get(user_id=pk)
-        serializer = PropertySerializer(properties)
+        properties = Property.objects.filter(user_id=pk)
+        if not properties.exists():
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = PropertySerializer(properties, many=True)  # Agregar `many=True`
         return Response(serializer.data)
-    except Property.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+# @api_view(['GET'])
+# def property_list_user(request, pk):
+#     try:
+#         properties = Property.objects.filter(user_id=pk)
+#         serializer = PropertySerializer(properties,many=True)
+#         return Response(serializer.data)
+#     except Property.DoesNotExist:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
