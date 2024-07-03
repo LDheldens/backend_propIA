@@ -1,5 +1,9 @@
 from django.shortcuts import render
 from django.db.models import Q
+from openai import OpenAI
+import openai
+from django.http import JsonResponse
+import json
 # Create your views here.
 from rest_framework.response import Response
 from rest_framework.serializers import Serializer
@@ -11,6 +15,10 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.pagination import PageNumberPagination
+
+
+
+
 
 class CustomPagination(PageNumberPagination):
     page_size = 10 
@@ -89,3 +97,36 @@ def property_detail(request, pk):
         property_id = property.id
         property.delete()
         return Response({'message': f'Propidad eliminada','id':property_id}, status=status.HTTP_204_NO_CONTENT)
+    
+    
+    
+
+# vista para la búsqueda de propieades usando IA
+api_key = 'sk-proj-PxqsEdiczaUdivgmHFnCT3BlbkFJUO7C3T6L99mMzhJV1mrI'
+# api_key = 'sk-proj-SF4aqZ1jFSHTpReG6Wp8T3BlbkFJ2SJchfDsqtjjn4amBiwB'
+client = OpenAI(api_key=api_key)
+@api_view(["POST"])
+def buscar_propiedades(request):
+    data = json.loads(request.body)
+    user_input = data.get('message')
+    print(user_input)
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo-1106",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": f"Convierte esta consulta en una sentencia SQL: {user_input}"}
+            ],
+            temperature=0.8,
+            max_tokens=1000
+        )
+
+        sql_query = response.choices[0].message['content'].strip()
+        print(sql_query)
+        # Ejecutar la consulta SQL en la base de datos
+        propiedades = Property.objects.raw(sql_query)
+        serializer = PropertySerializer(propiedades, many=True)
+        return JsonResponse(serializer.data, safe=False)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, safe=False)

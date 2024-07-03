@@ -170,6 +170,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://tu-dominio.com',  # Dominio de producción
 ]
 
+
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'contenttype',
     'authorization',

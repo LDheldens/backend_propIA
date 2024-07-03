@@ -12,4 +12,5 @@ urlpatterns = [
     path('list/',list_users),
     path('<int:pk>/',detail_user),
     path('changePass/<int:pk>/',change_password),
+    
 ]

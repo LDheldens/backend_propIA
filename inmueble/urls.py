@@ -8,4 +8,5 @@ urlpatterns = [
     path('list/admin/',ListPropertyAdmin),
     path('add/',create_property),
     path('<int:pk>/',property_detail),
+    path('buscar-propiedades/', buscar_propiedades),
 ]
