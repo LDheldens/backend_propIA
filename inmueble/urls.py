@@ -8,4 +8,6 @@ urlpatterns = [
     path('list/admin/',ListPropertyAdmin),
     path('add/',create_property),
     path('<int:pk>/',property_detail),
+    path('list/user/<int:pk>/',property_list_user),
+
 ]
