@@ -29,7 +29,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['138.197.64.146']
 
-
 # Application definition
 # REST_FRAMEWORK = {
 #     # Use Django's standard `django.contrib.auth` permissions,
@@ -168,6 +167,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',  # React (o cualquier otro frontend en desarrollo)
     'https://tu-dominio.com',  # Dominio de producción
+    'https://dainty-malabi-41451a.netlify.app'
 ]
 
 
@@ -185,3 +185,17 @@ CORS_ALLOW_METHODS = list(default_methods) + [
     'DELETE',
     'OPTIONS',
 ]
+
+# # Redirigir HTTP a HTTPS
+DEBUG = False
+
+
+# Otras configuraciones relacionadas con SSL
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 3600
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
