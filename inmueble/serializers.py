@@ -8,6 +8,7 @@ class ImagePropertySerializer(serializers.ModelSerializer):
 
 class PropertySerializer(serializers.ModelSerializer):
     images = ImagePropertySerializer(many=True, read_only=True)
+    user_id = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = Property
@@ -16,5 +17,5 @@ class PropertySerializer(serializers.ModelSerializer):
             'first_name', 'last_name', 'dni', 'phone_number', 'adress', 'departamento',
             'provincia', 'distrito', 'urbanization', 'area_property', 'bedrooms_number',
             'garages_number', 'bathrooms_number', 'kitchens_number', 'floors_number',
-            'type_currency', 'price', 'description', 'terms_conditions', 'images'
+            'type_currency', 'price', 'description', 'terms_conditions', 'images','user_id'
         ]

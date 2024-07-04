@@ -63,9 +63,11 @@ def ListProperty(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def create_property(request):
+    print(request.user.id)
     user = request.user
     data = request.data
-    data['user'] = user.id 
+    data['user_id'] = user.id 
+    print(data['user_id'] )
 
     serializer = PropertySerializer(data=data)
     if serializer.is_valid():
@@ -139,6 +141,7 @@ def buscar_propiedades(request):
 
 @api_view(['GET'])
 def property_list_user(request, pk):
+    print('xd',pk)
     try:
         properties = Property.objects.filter(user_id=pk)
         if not properties.exists():
