@@ -60,10 +60,14 @@ def ListProperty(request):
 
 
 @api_view(["POST"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def create_property(request):
-    print(request.data)  # Para depuración
-    print('IMAGENES',request.FILES)  # Para depuración
-    serializer = PropertySerializer(data=request.data)
+    user = request.user
+    data = request.data
+    data['user'] = user.id 
+
+    serializer = PropertySerializer(data=data)
     if serializer.is_valid():
         property_instance = serializer.save()
 
