@@ -63,11 +63,9 @@ def ListProperty(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def create_property(request):
-    print(request.user.id)
     user = request.user
     data = request.data
     data['user_id'] = user.id 
-    print(data['user_id'] )
 
     serializer = PropertySerializer(data=data)
     if serializer.is_valid():
